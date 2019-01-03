@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $("document").ready(function () {
+
+        $("#attachmentsControl").change(function () {
+            debugger;
+            var files = $('#attachmentsControl').get(0).files;
+            var fileDataContainer = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+
+                var file = files[i];
+                fileDataContainer.append(file.name, file);
+            }
+
+
+            $.ajax({
+                url: '/Home/UploadFiles',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileDataContainer,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        });
+    });
+
+    //$('#btnDownload').click(function () {
+    //    alert('rt');
+
+    //});
+
+</script>
+
+<input type="file" id="attachmentsControl" multiple />
+@Html.ActionLink("Documents", "Downloads")
+@*<button id="btnDownload"> Download </button>*@
